@@ -1,26 +1,23 @@
 {
   "compilerOptions": {
-    "target": "es2016",
-    "lib": ["dom", "dom.iterable", "esnext"],
-    "allowJs": true,
-    "skipLibCheck": true,
+    "module": "NodeNext", // Quy định output module được sử dụng
+    "moduleResolution": "NodeNext",
+    "target": "ES2022", // Target output cho code
+    "outDir": "dist", // Đường dẫn output cho thư mục build
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "noImplicitAny": true,
-    "noImplicitThis": false,
-    "strictNullChecks": true,
-    "strict": true,
-    "baseUrl": ".",
-    "forceConsistentCasingInFileNames": true,
-    "downlevelIteration": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true
+    "strict": true /* Enable all strict type-checking options. */,
+    "skipLibCheck": true /* Skip type checking all .d.ts files. */,
+    "baseUrl": "./src", // Đường dẫn base cho các import
+    "paths": {
+      "~/*": ["./src/*"] // Đường dẫn tương đối cho các import (alias)
+    },
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "allowImportingTsExtensions": true
   },
   "ts-node": {
-    "esm": true,
-    "experimentalSpecifierResolution": "node"
-  }
+    "require": ["tsconfig-paths/register"]
+  },
+  "files": ["src/type.d.ts"], // Các file dùng để defined global type cho dự án
+  "include": ["src/**/*"] // Đường dẫn include cho các file cần build
 }
