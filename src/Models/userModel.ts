@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose'
+import isEmail from 'validator/lib/isEmail'
 
-export default mongoose.model(
+const User = mongoose.model(
   'User',
   new Schema({
     id: { type: Schema.ObjectId },
@@ -15,14 +16,33 @@ export default mongoose.model(
     email: {
       type: String,
       required: true,
-      match: [
-        /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\. [0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-        'Please add a valid email address.'
-      ],
       unique: true,
-      lowercase: true
+      validate: {
+        validator: (value) => isEmail,
+        message: 'Email is incorrect format!'
+      }
     },
-    created_date: { type: Date, default: Date.now },
-    updated_date: { type: Date, default: Date.now }
+    password: {
+      type: String,
+      require: true
+    },
+    phone: {
+      type: Number
+    },
+    address: {
+      type: String
+    },
+    languages: {
+      type: [String]
+    },
+    gender: {
+      type: String,
+      enum: {
+        values: ['Male', 'Female'],
+        message: '{VALUE} is not support'
+      }
+    }
   })
 )
+
+export default User

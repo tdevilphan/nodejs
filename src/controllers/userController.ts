@@ -16,7 +16,15 @@ const login = async (req: Request, res: Response) => {
 const register = async (req: Request, res: Response) => {
   const result = validationResult(req)
   const { name, email, password, address } = req.body
-  await user.register({ name, email, password, address })
+  try {
+    const newUser = await user.register({ name, email, password })
+    res.status(200).json({
+      message: 'Register user successfully',
+      data: newUser
+    })
+  } catch (error) {
+    throw new Error('')
+  }
   return res.status(201).json(`Hello, ${name}!`)
 }
 
