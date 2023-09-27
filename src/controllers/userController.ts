@@ -2,6 +2,7 @@ import { Request, Response } from 'express'
 import { validationResult } from 'express-validator'
 
 import UserRepository from '@app/repositories/UserRepository'
+import { StatusCode } from '@app/common/constant'
 
 const login = async (req: Request, res: Response) => {
   const result = validationResult(req)
@@ -9,10 +10,10 @@ const login = async (req: Request, res: Response) => {
     if (result.isEmpty()) {
       const { email, password } = req.body
       const user = await UserRepository.login({ email, password })
-      return res.status(200).json({ message: 'Login successfully', data: user })
+      return res.status(StatusCode.SUCCESS).json({ message: 'Login successfully', data: user })
     }
   } catch (error) {
-    return res.status(400).json(error.toString())
+    return res.status(StatusCode.BAD_REQUEST).json(error.toString())
   }
   res.send({ errors: result.array() })
 }
@@ -28,7 +29,7 @@ const register = async (req: Request, res: Response) => {
       })
     }
   } catch (error) {
-    return res.status(400).json(error.toString())
+    return res.status(StatusCode.BAD_REQUEST).json(error.toString())
   }
 }
 

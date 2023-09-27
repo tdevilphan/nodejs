@@ -8,7 +8,7 @@ const connect = async () => {
   } catch (error) {
     const { code } = error
     if (error.code == 8000) {
-      throw new Error("Wrong datatabase's username and password")
+      throw new Error("Wrong database's username and password")
     } else if (code == 'ENOTFOUND') {
       throw new Error('Wrong server name/connection string')
     }

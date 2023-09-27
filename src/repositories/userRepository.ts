@@ -1,6 +1,7 @@
-import { User } from '@app/Models'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+
+import { User } from '@app/Models'
 
 const login = async ({ email, password }) => {
   const existingUser = await User.findOne({ email }).exec()
