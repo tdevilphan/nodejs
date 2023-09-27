@@ -1,3 +1,3 @@
-import userRoute from './userRoute'
+import userRoute from './UserRoute'
 
 export { userRoute }

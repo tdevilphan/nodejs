@@ -1,31 +1,35 @@
 import { Request, Response } from 'express'
 import { validationResult } from 'express-validator'
 
-import user from '@app/repositories/userRepository'
+import UserRepository from '@app/repositories/UserRepository'
 
 const login = async (req: Request, res: Response) => {
   const result = validationResult(req)
-  if (result.isEmpty()) {
-    const { email, password } = req.body
-    await user.login({ email, password })
-    return res.send(`Hello, ${email}!`)
+  try {
+    if (result.isEmpty()) {
+      const { email, password } = req.body
+      const user = await UserRepository.login({ email, password })
+      return res.status(200).json({ message: 'Login successfully', data: user })
+    }
+  } catch (error) {
+    return res.status(400).json(error.toString())
   }
   res.send({ errors: result.array() })
 }
 
 const register = async (req: Request, res: Response) => {
-  const result = validationResult(req)
-  const { name, email, password, address } = req.body
+  const { name, email, password, address, phone, languages, gender } = req.body
   try {
-    const newUser = await user.register({ name, email, password })
-    res.status(200).json({
-      message: 'Register user successfully',
-      data: newUser
-    })
+    const newUser = await UserRepository.register({ name, email, password, address, phone, languages, gender })
+    if (newUser) {
+      return res.status(200).json({
+        message: 'Register user successfully',
+        data: newUser
+      })
+    }
   } catch (error) {
-    throw new Error('')
+    return res.status(400).json(error.toString())
   }
-  return res.status(201).json(`Hello, ${name}!`)
 }
 
 export default {

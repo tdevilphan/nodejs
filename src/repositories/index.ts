@@ -1,3 +1,3 @@
-import userRepository from './userRepository'
+import userRepository from './UserRepository'
 
 export { userRepository }

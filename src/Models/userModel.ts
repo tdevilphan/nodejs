@@ -1,17 +1,28 @@
-import mongoose, { Schema } from 'mongoose'
+import mongoose, { Schema, Document } from 'mongoose'
 import isEmail from 'validator/lib/isEmail'
+
+export interface UserDef {
+  id: typeof Schema.ObjectId
+  name: string
+  email: string
+  password: string
+  phone?: string
+  address?: string
+  languages?: [string]
+  gender?: 'Male' | 'Female'
+}
 
 const User = mongoose.model(
   'User',
-  new Schema({
+  new Schema<UserDef>({
     id: { type: Schema.ObjectId },
     name: {
       type: String,
       require: true,
       validate: {
-        validator: (value) => value.length > 0
-      },
-      message: 'Name is required'
+        validator: (value) => value.length > 0,
+        message: 'Name is required'
+      }
     },
     email: {
       type: String,
@@ -27,7 +38,7 @@ const User = mongoose.model(
       require: true
     },
     phone: {
-      type: Number
+      type: String
     },
     address: {
       type: String
@@ -44,5 +55,7 @@ const User = mongoose.model(
     }
   })
 )
+
+export type UserDocument = Document<unknown, any, UserDef> & UserDef
 
 export default User
