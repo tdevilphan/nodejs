@@ -6,7 +6,11 @@ import { StatusCode, VerifyTokenStatus } from '@app/common/constant'
 const checkToken = (req: Request, res: Response, next: NextFunction) => {
   // Bypass login/register
 
-  if (req.url.toLowerCase().trim() === '/user/login' || req.url.toLowerCase().trim() === '/user/register') {
+  if (
+    req.url.toLowerCase().trim() === '/user/login' ||
+    req.url.toLowerCase().trim() === '/user/register' ||
+    req.url.toLowerCase().trim() === '/'
+  ) {
     next()
     return
   }
